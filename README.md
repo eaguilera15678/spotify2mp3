@@ -1,120 +1,53 @@
-<br>
-<br>
-<br>
-<div align="center"><b>This project is currently inactive, and will not run without big changes to the code.</b></div>
-<br>
-<br>
-<br>
+# spotify2mp3
 
-<div align="center">
+Script en Python para descargar playlists de Spotify en formato MP3 usando spotipy para obtener la metadata y yt-dlp + ffmpeg para la descarga y transcodificación. Ejemplo con la playlist `https://open.spotify.com/playlist/37i9dQZF1DWW7hJS3Xj96I`.
 
-  <img src="assets/logo.png" alt="logo" width="250" height="auto" />  
-  <p>
-    Simple, free, and unlimited Spotify MP3 downloads
-  </p>
-  
-  
-<!-- Badges -->
-<p>
-  <a href="https://github.com/couldbejake/spotify2mp3/graphs/contributors">
-    <img src="https://img.shields.io/github/contributors/couldbejake/spotify2mp3" alt="contributors" />
-  </a>
+## Requisitos
+- Python 3.10+ (probado en 3.13)
+- ffmpeg disponible en tu PATH
+- Credenciales de API de Spotify (Client ID y Client Secret)
 
-  <!--
-  <a href="">
-    <img src="https://img.shields.io/github/last-commit/couldbejake/spotify2mp3" alt="last update" />
-  </a>
-  -->
-  
-  <a href="https://github.com/couldbejake/spotify2mp3/network/members">
-    <img src="https://img.shields.io/github/forks/couldbejake/spotify2mp3" alt="forks" />
-  </a>
-  
-  <a href="https://github.com/couldbejake/spotify2mp3/stargazers">
-    <img src="https://img.shields.io/github/stars/couldbejake/spotify2mp3" alt="stars" />
-  </a>
-  
-  <a href="https://github.com/couldbejake/spotify2mp3/issues/">
-    <img src="https://img.shields.io/github/issues/couldbejake/spotify2mp3" alt="open issues" />
-  </a>
-  
-  <!--
-  <a href="https://github.com/couldbejake/awesome-readme-template/blob/master/LICENSE">
-    <img src="https://img.shields.io/github/license/couldbejake/awesome-readme-template.svg" alt="license" />
-  </a>-->
-</p>
-   
-<h4>
-    <a href="https://github.com/couldbejake/spotify2mp3/issues">Report Bug</a>
-  <span> · </span>
-    <a href="https://github.com/couldbejake/spotify2mp3/issues/new">Request Feature</a>
-  <span> · </span>
-    <a href="https://www.buymeacoffee.com/couldbejake">Support this project</a>
-  </h4>
-</div>
+## Instalación
+1. Crea y activa un entorno virtual (opcional pero recomendado):
+   ```sh
+   python -m venv .venv
+   .venv/Scripts/activate  # Windows
+   # source .venv/bin/activate  # macOS/Linux
+   ```
+2. Instala dependencias:
+   ```sh
+   pip install -r requirements.txt
+   ```
+3. Crea un archivo `.env` en la raíz con tus credenciales de Spotify:
+   ```env
+   SPOTIFY_CLIENT_ID=tu_client_id
+   SPOTIFY_CLIENT_SECRET=tu_client_secret
+   ```
 
-<!-- Getting Started -->
-## 	:toolbox: Getting Started
+## Uso
+Ejemplo con la playlist del enunciado, descargando a la carpeta `downloads`:
+```sh
+python src/spotify2mp3.py --playlist https://open.spotify.com/playlist/37i9dQZF1DWW7hJS3Xj96I --out-dir downloads
+```
 
-<!-- Prerequisites -->
-### :bangbang: Prerequisites
+Si ffmpeg no está en el PATH, indica la ruta al binario (o carpeta que lo contiene):
+```sh
+python src/spotify2mp3.py --playlist <url_o_id> --out-dir downloads --ffmpeg-path "C:\\ffmpeg\\bin\\ffmpeg.exe"
+```
+También funciona pasando solo la carpeta `--ffmpeg-path C:\\ffmpeg\\bin`.
 
-1. Ideally use Python 3.8
-2. Install git.
-   - Windows: https://git-scm.com/download/win
-   - Ubuntu: It should come pre-installed
-   - Mac OS: It should come pre-installed
+Si quieres validar el entorno antes de descargar (ffmpeg y credenciales), usa:
+```sh
+python src/spotify2mp3.py --playlist <url_o_id> --check
+```
+Si faltan credenciales y no tienes `.env`, el script te pedirá los valores para esa ejecución (no se guardan en disco).
 
-<!-- Run Locally -->
-### :running: Run Locally
+Parámetros disponibles:
+- `--playlist` (requerido): URL o ID de la playlist de Spotify.
+- `--out-dir` (opcional): carpeta de salida (por defecto `downloads`).
+- `--limit` (opcional): número de pistas a procesar para pruebas rápidas.
 
-Clone the project
-
-`$ git clone https://github.com/couldbejake/spotify2mp3.git`
-
-<!-- Installation -->
-### :gear: Installation
-
-Go to the project directory
-
-`$ cd spotify2mp3 `
-
-Install packages using pip
-
-`$ pip install -r requirements.txt`
-
-Run the script
-
-`$ python spotify2mp3.py`
-
-Brew yourself a coffee, you deserved it!
-
-`If this project helped you, feel free to give us a star`
-
-## Getting spotify playlist URL
-
-Paste a Spotify Song, Playlist or Album URL into the program. You can also specify 'liked' to retrieve your liked songs.
-
-To get the url:
-
-1. Right click on a Song, Playlist or Album
-2. Share
-3. Copy link
-
-On mobile:
-
-1. Three dots
-2. Share
-3. Copy link
-
-## Troubleshooting
-
-If you have any issues at all, please post a full log <a href="https://github.com/couldbejake/spotify2mp3/issues">here</a>
-
-Support this project
-
-[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/couldbejake)
-
-## Coming soon
-
-Documentation for the spotify2mp3 Python API.
+## Notas
+- yt-dlp necesita ffmpeg para convertir a MP3. En Windows puedes instalar builds desde https://www.gyan.dev/ffmpeg/builds/
+- El script añade metadatos básicos (título, artista y álbum) al MP3.
+- Usa este proyecto de forma responsable y respeta los términos de servicio de Spotify y YouTube.
